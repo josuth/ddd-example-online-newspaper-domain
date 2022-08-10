@@ -44,9 +44,13 @@ public class Article {
 	}
 
 	public Comment createComment(User user, String text) {
-		Comment comment = new Comment(user, text);
+		Comment comment = new Comment(generateIdComment(), user, text);
 		this.commentList.add(comment);
 		return comment;
+	}
+
+	private int generateIdComment() {
+		return this.commentList.size()+1;
 	}
 	
 }

@@ -18,7 +18,7 @@ public class ArticleTest {
 	
 	@Test
 	public void givenMinInfo_whenCreateArticle_thenSectionHasTheMinInfo_test()	{
-		article = new Article("abc", "Article's title");
+		Article article = new Article("abc", "Article's title");
 		
 		assertEquals("abc", article.getIdArticle());
 		assertEquals("Article's title", article.getTitle());
@@ -71,19 +71,31 @@ public class ArticleTest {
 	
 	@Test
 	public void givenArticle_whenAddComment_thenCommentIsAddedToArticle_test()	{
-		Comment comment = article.createComment(new User(), "comment's text");
+		Comment comment = article.createComment(new User("user1"), "comment's text");
 		
 		assertTrue(article.getCommentList().contains(comment));
 	}
 	
 	@Test
 	public void givenArticleWithComments_whenGetComments_thenCommentsAreReturned_test()	{
+		article.createComment(new User("user1"), "comment's text");
 		
+		assertEquals(1, article.getCommentList().size());
 	}
 	
 	@Test
 	public void givenArticleWithoutComments_whenGetComments_thenCommentsAreNotReturned_test()	{
+		assertEquals(0, article.getCommentList().size());
+	}
+	
+	@Test
+	public void givenCommentList_whenGenerateIdComment_thenIdIsGenerated_test()	{
+		// For simplicity, we consider comments cannot be removed and its id will be a secuencial number
+		Comment comment1 = article.createComment(new User("user1"), "comment's text");
+		Comment comment2 = article.createComment(new User("user1"), "comment's text");
 		
+		assertEquals(1, comment1.getIdComment());
+		assertEquals(2, comment2.getIdComment());
 	}
 
 }
