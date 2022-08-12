@@ -3,8 +3,6 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.users.User;
-
 import lombok.Getter;
 
 public class Article {
@@ -48,7 +46,7 @@ public class Article {
 		this.commentList.add(comment);
 		return comment;
 	}
-
+	
 	private int generateIdComment() {
 		return this.commentList.size()+1;
 	}

@@ -8,8 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.users.User;
-
 @ExtendWith(MockitoExtension.class)
 public class ArticleTest {
 	
@@ -71,14 +69,14 @@ public class ArticleTest {
 	
 	@Test
 	public void givenArticle_whenAddComment_thenCommentIsAddedToArticle_test()	{
-		Comment comment = article.createComment(new User("user1"), "comment's text");
+		Comment comment = article.createComment(new User("user1", false), "comment's text");
 		
 		assertTrue(article.getCommentList().contains(comment));
 	}
 	
 	@Test
 	public void givenArticleWithComments_whenGetComments_thenCommentsAreReturned_test()	{
-		article.createComment(new User("user1"), "comment's text");
+		article.createComment(new User("user1", false), "comment's text");
 		
 		assertEquals(1, article.getCommentList().size());
 	}
@@ -90,12 +88,13 @@ public class ArticleTest {
 	
 	@Test
 	public void givenCommentList_whenGenerateIdComment_thenIdIsGenerated_test()	{
-		// For simplicity, we consider comments cannot be removed and its id will be a secuencial number
-		Comment comment1 = article.createComment(new User("user1"), "comment's text");
-		Comment comment2 = article.createComment(new User("user1"), "comment's text");
+		Comment comment1 = article.createComment(new User("user1", false), "comment's text");
+		Comment comment2 = article.createComment(new User("user1", false), "comment's text");
 		
 		assertEquals(1, comment1.getIdComment());
 		assertEquals(2, comment2.getIdComment());
 	}
-
+	
+	
+	
 }
