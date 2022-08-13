@@ -6,19 +6,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 public class CommentTest {
 	
 	@Test
-	public void givenMinInfo_whenCreateArticle_thenSectionHasTheMinInfo_test()	{
+	public void givenMinInfo_whenCreateComment_thenSectionHasTheMinInfo_test()	{
 		Comment comment = new Comment(1, new User("user1", false), "Comment's text");
 		
 		assertEquals(1, comment.getIdComment());
 		assertEquals("Comment's text", comment.getText());
 		assertEquals("user1", comment.getUser().getUsername());
-	} 
+	}
+	
+	@Test
+	public void givenInfoWithNulls_whenCreateComment_thenError_test()	{
+		assertThrows(NullPointerException.class, () -> {
+			new Comment(1, null, "Comment's text");
+		});
+		
+		assertThrows(NullPointerException.class, () -> {
+			new Comment(1, new User("user1", false), null);
+		});
+	}
 	
 	@Test
 	public void givenComment_whenOwnerUserRemovesComment_CommentIsMarkedRemoved_test() throws ContentException	{

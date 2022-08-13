@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Getter
 public class Article {
 
-	@Getter String idArticle;
-	@Getter String title;
-	@Getter private String bodyText;
-	@Getter boolean published;	
-	@Getter List<Comment> commentList;
-	
-	protected Article(String idArticle, String title) {
-		super();
-		this.idArticle = idArticle;
-		this.title = title;
-		this.published = false;
-		this.commentList = new ArrayList<>();
-	}
-
+	private final String idArticle;
+	private @NonNull String title;
+	private String bodyText;
+	private boolean published;	
+	private List<Comment> commentList = new ArrayList<>();
+		
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)	{
@@ -50,5 +46,5 @@ public class Article {
 	private int generateIdComment() {
 		return this.commentList.size()+1;
 	}
-	
+
 }

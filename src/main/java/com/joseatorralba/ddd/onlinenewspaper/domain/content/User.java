@@ -1,16 +1,13 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 public class User {
 
-	@Getter private String username;
-	@Getter private boolean admin;
+	private final String username;
+	private boolean admin;
 
-	public User(String username, boolean admin) {
-		super();
-		this.username = username;
-		this.admin = admin;
-	}
-	
 }

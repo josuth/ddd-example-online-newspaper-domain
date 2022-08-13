@@ -1,26 +1,26 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
+import static org.springframework.util.StringUtils.hasText;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Getter
 public class Section {
 
-	@Getter int idSection;
-	@Getter String sectionName;
-	List<Article> articleList;
+	final int idSection;
+	private	@NonNull String sectionName;
+	private	List<Article> articleList = new ArrayList<>();
+	private	List<Ad> adList = new ArrayList<>();
 	
-	public Section() {
-		this.articleList = new ArrayList<>();
-	}
-
-	public Section(int id, String sectionName) {
-		this.idSection = id;
-		this.sectionName = sectionName;
-	}
-
+	
 	public int getNumArticles() {
 		return articleList.size();
 	}
@@ -39,12 +39,39 @@ public class Section {
 			throw new ContentException(ContentErrorType.ARTICLE_NOT_FOUND);
 		}
 	}
-
+	
 	public Optional<Article> getArticle(String idArticle) {
+		if (!hasText(idArticle))	{
+			return Optional.empty();
+		}
 		return articleList.stream()
 			.filter(a -> idArticle.equals(a.getIdArticle()))
 			.findFirst();
 	}	
+	
+	public Ad newAd(String adName, String fileNameBanner, LocalDate startValidityPeriod, LocalDate endValidityPeriod) {
+		Ad ad = new Ad(adName, fileNameBanner, startValidityPeriod, endValidityPeriod);
+		this.adList.add(ad);
+		return ad;
+	}
+
+	public Optional<Ad> getAd(String adName) {
+		if (!hasText(adName))	{
+			return Optional.empty();
+		}
+		return this.adList.stream()
+				.filter(a -> a.getAdName().equals(adName))
+				.findFirst();
+	}
+	
+	public Ad removeAd(String adName) throws ContentException {
+		Optional<Ad> op = getAd(adName);
+		if (op.isPresent()) {
+			op.get().deactivate();
+			return op.get();
+		}
+		throw new ContentException(ContentErrorType.AD_NOT_FOUND);
+	}
 	
 	protected String generateIdFromTitle(String title) {
 		int i = 1;
