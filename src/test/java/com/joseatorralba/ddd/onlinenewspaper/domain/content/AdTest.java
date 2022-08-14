@@ -3,6 +3,7 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 import static java.time.LocalDate.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -46,5 +47,66 @@ public class AdTest {
 			new Ad("adName1", "img/banner.jpg", now(), null);
 		});
 	}
+	
+	@Test
+	public void givenAd_whenDeactivate_AdIsDeactivated_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
+		ad.deactivate();
+		
+		assertTrue(!ad.isActive());
+	}
+	
+	@Test
+	public void givenDeactivatedAd_whenReactivate_AdIsActivated_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
+		ad.deactivate();
+		
+		ad.reactivate();
+		
+		assertTrue(ad.isActive());
+	}
+	
+	@Test
+	public void givenActiveAdAndInValidPeriod_whenIsActive_thenTrueReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
+		
+		assertTrue(ad.isActive());
+	}
 
+	@Test
+	public void givenActiveAdAndBeforeBeActivated_whenIsActive_thenFalseReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().plusDays(2), now().plusDays(4));
+				
+		assertTrue(!ad.isActive());
+	}
+	
+	@Test
+	public void givenFirstDayActivedAd_whenIsActive_thenTrueReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now(), now().plusDays(4));
+				
+		assertTrue(ad.isActive());
+	}
+	
+	@Test
+	public void givenLastDayActivedAd_whenIsActive_thenTrueReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(2), now());
+				
+		assertTrue(ad.isActive());
+	}
+	
+	@Test
+	public void givenActiveAdAndAfterBeDisactivated_whenIsActive_thenFalseReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(4), now().minusDays(2));
+				
+		assertTrue(!ad.isActive());
+	}
+	
+	@Test
+	public void givenDeactivatedAdAndInValidPeriod_whenIsActive_thenFalseReturned_test() throws ContentException	{
+		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
+		ad.deactivate();
+		
+		assertTrue(!ad.isActive());
+	}
+	
 }

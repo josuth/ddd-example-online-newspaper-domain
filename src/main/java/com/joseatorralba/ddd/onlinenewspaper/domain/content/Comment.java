@@ -1,10 +1,11 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Comment {
 

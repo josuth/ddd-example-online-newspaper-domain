@@ -122,7 +122,7 @@ public class SectionTest {
 		Optional<Ad> op = section.getAd("adName");
 		assertNotNull(op.isPresent());
 		Ad expectedAd = op.get();		
-		assertTrue(!ad.isActive());
+		assertTrue(ad.isActive());
 		assertEquals(ad.getAdName(), expectedAd.getAdName());
 		assertEquals(ad.getBannerPath(), expectedAd.getBannerPath());
 		assertEquals(ad.getStartValidityPeriod(), expectedAd.getStartValidityPeriod());

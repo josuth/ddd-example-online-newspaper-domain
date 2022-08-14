@@ -2,11 +2,12 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
 import java.time.LocalDate;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Ad {
 
@@ -14,21 +15,23 @@ public class Ad {
 	private @NonNull String bannerPath;
 	private @NonNull LocalDate startValidityPeriod;
 	private @NonNull LocalDate endValidityPeriod;
-	private boolean active;
+	
+	@Getter(AccessLevel.NONE)
+	private boolean deactivated = false;
 	
 	public boolean isActive() throws ContentException {
-		if (isValidityPeriod())	{
-			return this.active;
+		if (isValidityPeriod() && !this.deactivated)	{
+			return true;
 		}
-		throw new ContentException(ContentErrorType.OUT_OF_VALIDITY_PERIOD);
+		return false;
 	}
 
 	public void deactivate() {
-		this.active = false;
+		this.deactivated = true;
 	}
 	
 	public void reactivate()	{
-		this.active = true;
+		this.deactivated = false;
 	}
 	
 	public boolean isValidityPeriod()	{
