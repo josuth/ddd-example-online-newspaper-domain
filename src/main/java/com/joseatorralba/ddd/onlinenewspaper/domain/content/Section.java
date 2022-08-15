@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +34,12 @@ public class Section {
 		return article;
 	}
 
-	public void removeArticle(String idArticle) throws ContentException {
+	public void removeArticle(String idArticle) throws OnlineNewspaperException {
 		Optional<Article> op = getArticle(idArticle);
 		if (op.isPresent())	{
 			op.get().draft();
 		} else {
-			throw new ContentException(ContentErrorType.ARTICLE_NOT_FOUND);
+			throw new OnlineNewspaperException(ContentErrorType.ARTICLE_NOT_FOUND);
 		}
 	}
 	
@@ -64,13 +67,13 @@ public class Section {
 				.findFirst();
 	}
 	
-	public Ad removeAd(String adName) throws ContentException {
+	public Ad removeAd(String adName) throws OnlineNewspaperException {
 		Optional<Ad> op = getAd(adName);
 		if (op.isPresent()) {
 			op.get().deactivate();
 			return op.get();
 		}
-		throw new ContentException(ContentErrorType.AD_NOT_FOUND);
+		throw new OnlineNewspaperException(ContentErrorType.AD_NOT_FOUND);
 	}
 	
 	protected String generateIdFromTitle(String title) {

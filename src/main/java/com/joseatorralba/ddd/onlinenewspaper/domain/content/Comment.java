@@ -1,5 +1,8 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,11 +17,11 @@ public class Comment {
 	@NonNull private String text;
 	private boolean removed;
 		
-	public void removeComment(User user) throws ContentException {
+	public void removeComment(User user) throws OnlineNewspaperException {
 		if (user.isAdmin() || user.getUsername().equals(this.user.getUsername()))	{
 			this.removed = true;
 		} else {
-			throw new ContentException(ContentErrorType.FORBIDDEN);
+			throw new OnlineNewspaperException(ContentErrorType.FORBIDDEN);
 		}
 	}
 

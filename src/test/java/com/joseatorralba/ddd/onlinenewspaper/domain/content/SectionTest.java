@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 @ExtendWith(SpringExtension.class)
 public class SectionTest {
 	
@@ -33,7 +36,7 @@ public class SectionTest {
 	}
 	
 	@Test
-	public void givenSection_whenCreateArticle_thenArticleIsCreated_test() throws ContentException	{
+	public void givenSection_whenCreateArticle_thenArticleIsCreated_test() throws OnlineNewspaperException	{
 		Section section = new Section(1, "International");
 		Article article = section.newArticle("Article title");
 		
@@ -73,7 +76,7 @@ public class SectionTest {
 	}
 	
 	@Test
-	public void givenArticle_whenRemoveFromSection_thenArticleIsNotPublished_test() throws ContentException	{
+	public void givenArticle_whenRemoveFromSection_thenArticleIsNotPublished_test() throws OnlineNewspaperException	{
 		Section section = new Section(1, "International");
 		Article article = section.newArticle("abc");
 		
@@ -86,7 +89,7 @@ public class SectionTest {
 	public void givenUnknowArticle_when_RemoveFromSection_thenThrowError_test()	{
 		Section section = new Section(1, "International");
 		
-		ContentException ex = assertThrows(ContentException.class, () -> {
+		OnlineNewspaperException ex = assertThrows(OnlineNewspaperException.class, () -> {
 			section.removeArticle("xxx");
 		});
 		
@@ -115,7 +118,7 @@ public class SectionTest {
 	}
 	
 	@Test
-	public void givenSection_whenCreateAd_thenSectionHasNewAd_test() throws ContentException	{
+	public void givenSection_whenCreateAd_thenSectionHasNewAd_test() throws OnlineNewspaperException	{
 		Section section = new Section(1, "International");
 		Ad ad = section.newAd("adName", "img/banner.jpg", now(), now().plusMonths(6) );
 		
@@ -130,7 +133,7 @@ public class SectionTest {
 	}
 
 	@Test
-	public void givenSection_whenRemoveAd_thenSectionHasNotAd_test() throws ContentException	{
+	public void givenSection_whenRemoveAd_thenSectionHasNotAd_test() throws OnlineNewspaperException	{
 		Section section = new Section(1, "International");
 		section.newAd("adName", "img/banner.jpg", now(), now().plusMonths(6));
 		
@@ -161,7 +164,7 @@ public class SectionTest {
 		Section section = new Section(1, "International");
 		section.newAd("adName", "img/banner.jpg", now(), now().plusMonths(6) );
 
-		ContentException ex = assertThrows(ContentException.class, () -> {
+		OnlineNewspaperException ex = assertThrows(OnlineNewspaperException.class, () -> {
 			section.removeAd("unknow");
 		});
 		

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 @ExtendWith(SpringExtension.class)
 public class AdTest {
 	
@@ -49,7 +51,7 @@ public class AdTest {
 	}
 	
 	@Test
-	public void givenAd_whenDeactivate_AdIsDeactivated_test() throws ContentException	{
+	public void givenAd_whenDeactivate_AdIsDeactivated_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
 		ad.deactivate();
 		
@@ -57,7 +59,7 @@ public class AdTest {
 	}
 	
 	@Test
-	public void givenDeactivatedAd_whenReactivate_AdIsActivated_test() throws ContentException	{
+	public void givenDeactivatedAd_whenReactivate_AdIsActivated_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
 		ad.deactivate();
 		
@@ -67,42 +69,42 @@ public class AdTest {
 	}
 	
 	@Test
-	public void givenActiveAdAndInValidPeriod_whenIsActive_thenTrueReturned_test() throws ContentException	{
+	public void givenActiveAdAndInValidPeriod_whenIsActive_thenTrueReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
 		
 		assertTrue(ad.isActive());
 	}
 
 	@Test
-	public void givenActiveAdAndBeforeBeActivated_whenIsActive_thenFalseReturned_test() throws ContentException	{
+	public void givenActiveAdAndBeforeBeActivated_whenIsActive_thenFalseReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().plusDays(2), now().plusDays(4));
 				
 		assertTrue(!ad.isActive());
 	}
 	
 	@Test
-	public void givenFirstDayActivedAd_whenIsActive_thenTrueReturned_test() throws ContentException	{
+	public void givenFirstDayActivedAd_whenIsActive_thenTrueReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now(), now().plusDays(4));
 				
 		assertTrue(ad.isActive());
 	}
 	
 	@Test
-	public void givenLastDayActivedAd_whenIsActive_thenTrueReturned_test() throws ContentException	{
+	public void givenLastDayActivedAd_whenIsActive_thenTrueReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(2), now());
 				
 		assertTrue(ad.isActive());
 	}
 	
 	@Test
-	public void givenActiveAdAndAfterBeDisactivated_whenIsActive_thenFalseReturned_test() throws ContentException	{
+	public void givenActiveAdAndAfterBeDisactivated_whenIsActive_thenFalseReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(4), now().minusDays(2));
 				
 		assertTrue(!ad.isActive());
 	}
 	
 	@Test
-	public void givenDeactivatedAdAndInValidPeriod_whenIsActive_thenFalseReturned_test() throws ContentException	{
+	public void givenDeactivatedAdAndInValidPeriod_whenIsActive_thenFalseReturned_test() throws OnlineNewspaperException	{
 		Ad ad = new Ad("adName1", "img/banner.jpg", now().minusDays(1), now().plusDays(1));
 		ad.deactivate();
 		

@@ -2,6 +2,8 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
 import java.time.LocalDate;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,7 +21,7 @@ public class Ad {
 	@Getter(AccessLevel.NONE)
 	private boolean deactivated = false;
 	
-	public boolean isActive() throws ContentException {
+	public boolean isActive() throws OnlineNewspaperException {
 		if (isValidityPeriod() && !this.deactivated)	{
 			return true;
 		}

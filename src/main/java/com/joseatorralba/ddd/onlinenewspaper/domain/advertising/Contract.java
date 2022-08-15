@@ -2,6 +2,7 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.advertising;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -22,10 +23,10 @@ public class Contract {
 		this.adList.add(ad);
 	}
 
-	public double calculatePrice() {
+	public OptionalDouble calculateAvgPrice() {
 		return this.adList.stream()
 			.mapToDouble(Ad::getCostPerClick)
-			.sum();
+			.average();
 	}
 	
 }

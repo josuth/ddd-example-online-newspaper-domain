@@ -3,6 +3,8 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.advertising;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.OptionalDouble;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,21 +32,21 @@ public class ContractTest {
 	}
 
 	@Test
-	public void givenContract_whenCalculatePrice_thenCostIsZero_test()	{
+	public void givenContract_whenCalculateAvgPrice_thenCostIsZero_test()	{
 		Contract contract = new Contract(new Advertiser("advertiserName"), new Ad("adName", 0.25));
 		
-		double cost = contract.calculatePrice();
+		OptionalDouble cost = contract.calculateAvgPrice();
 		
-		assertEquals(0.25, cost);
+		assertEquals(0.25, cost.getAsDouble());
 	}
 	
 	@Test
-	public void givenContractWithSections_whenCalculatePrice_thenCostIsReturned_test()	{
+	public void givenContractWithSections_whenCalculateAvgPrice_thenCostIsReturned_test()	{
 		Contract contract = new Contract(new Advertiser("advertiserName"), new Ad("adName1", 0.25));
 		contract.addAd(new Ad("adName2", 0.15));
 		
-		double cost = contract.calculatePrice();
+		OptionalDouble cost = contract.calculateAvgPrice();
 		
-		assertEquals(0.40, cost);
+		assertEquals(0.20, cost.getAsDouble());
 	}
 }
