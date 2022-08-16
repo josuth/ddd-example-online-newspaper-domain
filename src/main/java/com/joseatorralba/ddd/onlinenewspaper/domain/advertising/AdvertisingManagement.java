@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
 
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class AdvertisingManagement {
 				.filter(c -> c.getName().equals(ad.getName()))
 				.findFirst();
 		if (existAd.isPresent())	{
-			throw new OnlineNewspaperException(ContentErrorType.AD_ALREADY_EXISTS);
+			throw new OnlineNewspaperException(ErrorType.AD_ALREADY_EXISTS);
 		}
 		
 		Contract contract = new Contract(advertiser, ad);

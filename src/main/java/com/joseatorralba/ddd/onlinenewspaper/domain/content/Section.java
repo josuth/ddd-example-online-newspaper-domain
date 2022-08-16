@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
 
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class Section {
 		if (op.isPresent())	{
 			op.get().draft();
 		} else {
-			throw new OnlineNewspaperException(ContentErrorType.ARTICLE_NOT_FOUND);
+			throw new OnlineNewspaperException(ErrorType.ARTICLE_NOT_FOUND);
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class Section {
 			op.get().deactivate();
 			return op.get();
 		}
-		throw new OnlineNewspaperException(ContentErrorType.AD_NOT_FOUND);
+		throw new OnlineNewspaperException(ErrorType.AD_NOT_FOUND);
 	}
 	
 	protected String generateIdFromTitle(String title) {

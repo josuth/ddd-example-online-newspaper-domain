@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
+
 @ExtendWith(SpringExtension.class)
 public class ArticleTest {
 	
@@ -18,6 +21,7 @@ public class ArticleTest {
 		assertEquals("abc", article.getIdArticle());
 		assertEquals("Article's title", article.getTitle());
 		assertEquals(false, article.isPublished());
+		assertEquals(false, article.isPayment());
 		assertEquals(0, article.getCommentList().size());
 	}
 	
@@ -76,15 +80,29 @@ public class ArticleTest {
 	}
 	
 	@Test
-	public void givenArticle_whenAddComment_thenCommentIsAddedToArticle_test()	{
+	public void givenArticle_whenRegisteredUserAddComment_thenCommentIsAddedToArticle_test() throws OnlineNewspaperException	{
 		Article article = new Article("abc", "Article's title");
+		
 		Comment comment = article.createComment(new User("user1", false), "comment's text");
 		
 		assertTrue(article.getCommentList().contains(comment));
 	}
 	
 	@Test
-	public void givenArticleWithComments_whenGetComments_thenCommentsAreReturned_test()	{
+	public void givenArticle_whenUnregisteredUserAddComment_thenError_test()	{
+		Article article = new Article("abc", "Article's title");
+		User user = new User("user1", false);
+		user.unregister();
+		
+		OnlineNewspaperException ex = assertThrows(OnlineNewspaperException.class, () -> {
+			article.createComment(user, "comment's text");
+		});
+		
+		assertEquals(ErrorType.FORBIDDEN, ex.getErrorType());		
+	}
+	
+	@Test
+	public void givenArticleWithComments_whenGetComments_thenCommentsAreReturned_test() throws OnlineNewspaperException	{
 		Article article = new Article("abc", "Article's title");
 		article.createComment(new User("user1", false), "comment's text");
 		
@@ -98,7 +116,7 @@ public class ArticleTest {
 	}
 	
 	@Test
-	public void givenCommentList_whenGenerateIdComment_thenIdIsGenerated_test()	{
+	public void givenCommentList_whenGenerateIdComment_thenIdIsGenerated_test() throws OnlineNewspaperException	{
 		Article article = new Article("abc", "Article's title");
 		Comment comment1 = article.createComment(new User("user1", false), "comment's text");
 		Comment comment2 = article.createComment(new User("user1", false), "comment's text");
@@ -107,6 +125,50 @@ public class ArticleTest {
 		assertEquals(2, comment2.getIdComment());
 	}
 	
+	@Test
+	public void givenArticle_whenArticleSetPayment_thenArticleIsPayment_test()	{
+		Article article = new Article("abc", "Article's title");
+		
+		article.setPayment();
+		
+		assertTrue(article.isPayment());
+	}
 	
+	@Test
+	public void givenArticle_whenArticleSetFree_thenArticleIsFree_test()	{
+		Article article = new Article("abc", "Article's title");
+		
+		article.setFree();
+		
+		assertTrue(!article.isPayment());
+	}
+	
+	@Test
+	public void givenArticleAndUser_whenRegisteredUserWantsReadArticle_thenUserCanReadArtible_test()	{
+		Article article = new Article("abc", "Article's title");
+		
+		assertTrue(article.canRead(new User("user1", false)));
+	}
+	
+	@Test
+	public void givenArticleAndUser_whenUnregisteredUserWantsReadPaymentArticle_thenUserCannotReadArtible_test()	{
+		Article article = new Article("abc", "Article's title");
+		article.setPayment();
+		
+		User user = new User("user1", false);
+		user.unregister();
+		
+		assertTrue(!article.canRead(user));
+	}
+	
+	@Test
+	public void givenArticleAndUser_whenUnregisteredUserWantsReadFreeArticle_thenUserCanReadArtible_test()	{
+		Article article = new Article("abc", "Article's title");
+		
+		User user = new User("user1", false);
+		user.unregister();
+		
+		assertTrue(article.canRead(user));
+	}
 	
 }

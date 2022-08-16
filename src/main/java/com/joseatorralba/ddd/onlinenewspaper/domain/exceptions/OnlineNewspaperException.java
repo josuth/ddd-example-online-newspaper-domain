@@ -6,9 +6,9 @@ public class OnlineNewspaperException extends Exception {
 
 	private static final long serialVersionUID = -5061799298942230573L;
 	
-	@Getter ContentErrorType errorType;
+	@Getter ErrorType errorType;
 
-	public OnlineNewspaperException(ContentErrorType errorType) {
+	public OnlineNewspaperException(ErrorType errorType) {
 		super(errorType.getMessage());
 		this.errorType = errorType;
 	}

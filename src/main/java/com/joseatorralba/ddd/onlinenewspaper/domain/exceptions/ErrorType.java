@@ -2,7 +2,7 @@ package com.joseatorralba.ddd.onlinenewspaper.domain.exceptions;
 
 import lombok.Getter;
 
-public enum ContentErrorType {
+public enum ErrorType {
 	
 	ARTICLE_ALREADY_EXISTS("The article is already in the section"), 
 	ARTICLE_NOT_FOUND("The article has not been found"),
@@ -13,7 +13,7 @@ public enum ContentErrorType {
 	
 	@Getter private String message;
 
-	private ContentErrorType(String message) {
+	private ErrorType(String message) {
 		this.message = message;
 	}
 	

@@ -1,6 +1,6 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.content;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
 
 import lombok.AccessLevel;
@@ -21,7 +21,7 @@ public class Comment {
 		if (user.isAdmin() || user.getUsername().equals(this.user.getUsername()))	{
 			this.removed = true;
 		} else {
-			throw new OnlineNewspaperException(ContentErrorType.FORBIDDEN);
+			throw new OnlineNewspaperException(ErrorType.FORBIDDEN);
 		}
 	}
 

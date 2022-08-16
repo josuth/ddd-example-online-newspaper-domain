@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ContentErrorType;
+import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
 
 @ExtendWith(SpringExtension.class)
@@ -93,7 +93,7 @@ public class SectionTest {
 			section.removeArticle("xxx");
 		});
 		
-		assertEquals(ContentErrorType.ARTICLE_NOT_FOUND, ex.getErrorType());
+		assertEquals(ErrorType.ARTICLE_NOT_FOUND, ex.getErrorType());
 	}
 	
 	@Test
@@ -168,7 +168,7 @@ public class SectionTest {
 			section.removeAd("unknow");
 		});
 		
-		assertEquals(ContentErrorType.AD_NOT_FOUND, ex.getErrorType());
+		assertEquals(ErrorType.AD_NOT_FOUND, ex.getErrorType());
 	}
 	
 }
