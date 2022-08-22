@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.ErrorType;
 import com.joseatorralba.ddd.onlinenewspaper.domain.exceptions.OnlineNewspaperException;
@@ -92,7 +93,7 @@ public class ArticleTest {
 	public void givenArticle_whenUnregisteredUserAddComment_thenError_test()	{
 		Article article = new Article("abc", "Article's title");
 		User user = new User("user1", false);
-		user.unregister();
+		ReflectionTestUtils.setField(user, "registered", false);
 		
 		OnlineNewspaperException ex = assertThrows(OnlineNewspaperException.class, () -> {
 			article.createComment(user, "comment's text");
@@ -156,7 +157,7 @@ public class ArticleTest {
 		article.setPayment();
 		
 		User user = new User("user1", false);
-		user.unregister();
+		ReflectionTestUtils.setField(user, "registered", false);
 		
 		assertTrue(!article.canRead(user));
 	}
@@ -166,7 +167,7 @@ public class ArticleTest {
 		Article article = new Article("abc", "Article's title");
 		
 		User user = new User("user1", false);
-		user.unregister();
+		ReflectionTestUtils.setField(user, "registered", false);
 		
 		assertTrue(article.canRead(user));
 	}

@@ -1,10 +1,12 @@
 package com.joseatorralba.ddd.onlinenewspaper.domain.suscriptions;
 
+import static com.joseatorralba.ddd.onlinenewspaper.domain.suscriptions.SuscriptionType.MONTHLY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +22,7 @@ public class UserTest {
 		assertEquals("username", user.getUsername());
 		assertNull(user.getSuscription());
 		assertTrue(!user.isActiveSuscription());
+		assertTrue(user.isRegistered());
 	}
 	
 	@Test
@@ -50,6 +53,45 @@ public class UserTest {
 		User user = new User("username");
 		
 		assertTrue(user.getDeactivationDate().isEmpty());
+	}
+	
+	@Test
+	public void givenUser_whenRegister_thenUserIsRegistered_test()	{
+		User user = new User("username");
+
+		user.register();
+
+		assertTrue(user.isRegistered());
+	}
+	
+	@Test
+	public void givenUser_whenUnregister_thenUserIsNotRegistered_test()	{
+		User user = new User("username");
+
+		user.unregister();
+
+		assertTrue(!user.isRegistered());
+	}
+	
+	@Test
+	public void givenUser_whenCancelSuscription_thenDeactivationDateIsReturned_test()	{
+		User user = new User("username");
+		user.suscribe(MONTHLY);
+		
+		Optional<LocalDate> deactivationDate = user.cancelSuscription();
+
+		assertTrue(user.isActiveSuscription());
+		assertEquals(LocalDate.now().plusMonths(1), deactivationDate.get());
+	}
+	
+	@Test
+	public void givenUserWithoutSuscription_whenCancelSuscription_thenDeactivationDateIsEmpty_test()	{
+		User user = new User("username");
+		
+		Optional<LocalDate> deactivationDate = user.cancelSuscription();
+
+		assertTrue(!user.isActiveSuscription());
+		assertTrue(deactivationDate.isEmpty());
 	}
 	
 }

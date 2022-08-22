@@ -16,14 +16,6 @@ public class User {
 		this.registered = true;		
 	}
 
-	public void register() {
-		this.registered = true;
-	}
-	
-	public void unregister() {
-		this.registered = false;
-	}
-	
 	public boolean isRegistered()	{
 		return this.registered || this.admin;
 	}

@@ -31,39 +31,4 @@ public class UserTest {
 		assertTrue(user.isRegistered());
 	}
 	
-	@Test
-	public void givenUser_whenRegister_thenUserIsRegistered_test()	{
-		User user = new User("username", false);
-
-		user.register();
-
-		assertTrue(user.isRegistered());
-	}
-	
-	@Test
-	public void givenUser_whenUnregister_thenUserIsNotRegistered_test()	{
-		User user = new User("username", false);
-
-		user.unregister();
-
-		assertTrue(!user.isRegistered());
-	}
-	
-	@Test
-	public void givenAdminUser_whenRegister_thenUserIsRegistered_test()	{
-		User user = new User("username", true);
-
-		user.register();
-
-		assertTrue(user.isRegistered());
-	}
-	
-	@Test
-	public void givenAdminUser_whenUnregister_thenUserIsRegistered_test()	{
-		User user = new User("username", true);
-
-		user.unregister();
-
-		assertTrue(user.isRegistered());
-	}
 }
